@@ -1,7 +1,68 @@
-<h2>Register</h2>
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Register</button>
-</form>
-<a href="{% url 'login' %}">Already have an account? Login</a>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ثبت نام | Register</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1>به جمع ما بپیوندید</h1>
+                <p>حساب کاربری خود را ایجاد کنید</p>
+            </div>
+            
+            <form method="POST" class="auth-form">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    {{ form.username.label_tag }}
+                    {{ form.username }}
+                    <span class="input-icon"><i class="fas fa-user"></i></span>
+                </div>
+                
+                <div class="form-group">
+                    {{ form.email.label_tag }}
+                    {{ form.email }}
+                    <span class="input-icon"><i class="fas fa-envelope"></i></span>
+                </div>
+                
+                <div class="form-group">
+                    {{ form.password1.label_tag }}
+                    {{ form.password1 }}
+                    <span class="input-icon"><i class="fas fa-lock"></i></span>
+                </div>
+                
+                <div class="form-group">
+                    {{ form.password2.label_tag }}
+                    {{ form.password2 }}
+                    <span class="input-icon"><i class="fas fa-lock"></i></span>
+                </div>
+                
+                <button type="submit" class="auth-button">
+                    <span>ثبت نام</span>
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+            </form>
+            
+            <div class="auth-footer">
+                <p>قبلاً حساب کاربری دارید؟ <a href="{% url 'login' %}">وارد شوید</a></p>
+            </div>
+        </div>
+        
+        <div class="auth-decoration">
+            <div class="decoration-circle"></div>
+            <div class="decoration-circle"></div>
+            <div class="decoration-circle"></div>
+        </div>
+    </div>
+    
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</body>
+</html>
