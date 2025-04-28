@@ -7,5 +7,5 @@ class CustomUserCreationForm(UserCreationForm):
         model = CustomUser
         fields = ('username', 'email', 'password', 'password2')
 
-# class CustomAuthenticationForm(AuthenticationForm):
-#     username = forms.EmailField(label='Email')
+class CustomAuthenticationForm(AuthenticationForm):
+    username = forms.EmailField(label='Email')
