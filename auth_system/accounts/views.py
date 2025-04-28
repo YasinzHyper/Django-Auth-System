@@ -13,3 +13,14 @@ def register_view(request):
     else:
         form = CustomUserCreationForm()
     return render(request, 'accounts/register.html', {'form': form})
+
+def login_view(request):
+    if request.methhod == "POST":
+        form = CustomAuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('dashboard')
+    else:
+        form = CustomAuthenticationForm()
+    return render(request, 'accounts/login.html', {'form': form})
