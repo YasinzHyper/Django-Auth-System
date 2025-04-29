@@ -1,13 +1,13 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ثبت نام | Register</title>
+    <title>ثبت نام | انجمن ما</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <div class="auth-container">
@@ -22,26 +22,34 @@
                 
                 <div class="form-group">
                     {{ form.username.label_tag }}
-                    {{ form.username }}
-                    <span class="input-icon"><i class="fas fa-user"></i></span>
+                    <div class="input-wrapper">
+                        {{ form.username }}
+                        <span class="input-icon"><i class="far fa-user"></i></span>
+                    </div>
                 </div>
                 
                 <div class="form-group">
                     {{ form.email.label_tag }}
-                    {{ form.email }}
-                    <span class="input-icon"><i class="fas fa-envelope"></i></span>
+                    <div class="input-wrapper">
+                        {{ form.email }}
+                        <span class="input-icon"><i class="far fa-envelope"></i></span>
+                    </div>
                 </div>
                 
                 <div class="form-group">
                     {{ form.password1.label_tag }}
-                    {{ form.password1 }}
-                    <span class="input-icon"><i class="fas fa-lock"></i></span>
+                    <div class="input-wrapper">
+                        {{ form.password1 }}
+                        <span class="input-icon"><i class="far fa-lock"></i></span>
+                    </div>
                 </div>
                 
                 <div class="form-group">
                     {{ form.password2.label_tag }}
-                    {{ form.password2 }}
-                    <span class="input-icon"><i class="fas fa-lock"></i></span>
+                    <div class="input-wrapper">
+                        {{ form.password2 }}
+                        <span class="input-icon"><i class="far fa-lock-alt"></i></span>
+                    </div>
                 </div>
                 
                 <button type="submit" class="auth-button">
@@ -51,7 +59,7 @@
             </form>
             
             <div class="auth-footer">
-                <p>قبلاً حساب کاربری دارید؟ <a href="{% url 'login' %}">وارد شوید</a></p>
+                <p>حساب کاربری دارید؟ <a href="{% url 'login' %}">ورود به حساب</a></p>
             </div>
         </div>
         
@@ -59,9 +67,11 @@
             <div class="decoration-circle"></div>
             <div class="decoration-circle"></div>
             <div class="decoration-circle"></div>
+            <div class="decoration-content">
+                <h2>انجمن تخصصی ما</h2>
+                <p>به جامعه حرفه‌ای ما بپیوندید و از امکانات ویژه بهره‌مند شوید</p>
+            </div>
         </div>
     </div>
-    
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </body>
 </html>
