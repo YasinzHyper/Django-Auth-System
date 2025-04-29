@@ -1,4 +1,3 @@
-```markdown
 # 🔐 Django Authentication and Authorization System
 
 A secure and extensible user authentication and authorization system built with Django.
