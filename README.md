@@ -1,285 +1,149 @@
-# 🔐 Django Authentication and Authorization System
+# 🔐 Django Auth System
 
-A secure and extensible user authentication and authorization system built with Django.
-
-This project demonstrates how to build a complete login/registration flow with access control using Django best practices. Ideal for backend developers who want to learn or showcase user management systems in Django.
+A robust and modular **user authentication system** built with Django. It provides clean registration, login, logout, password management, and email verification flows—ready to integrate into any Django project.
 
 ---
 
-## 🚀 Features
+## 📋 Table of Contents
 
-- ✅ Custom User Model with email as username
-- ✅ User Registration & Login System
-- ✅ Logout with session management
-- ✅ Protected Dashboard (login required)
-- ✅ Django Best Practices (custom forms, views, templates)
-- ✅ Clean project structure
-
----
-
-## 📁 Project Structure
-
-```
-auth_system/
-├── auth_system/         # Main Django project folder
-│   ├── __init__.py
-│   ├── settings.py      # Project settings
-│   ├── urls.py          # Main URL configuration
-│   └── wsgi.py
-│
-├── accounts/            # Authentication app
-│   ├── admin.py
-│   ├── apps.py
-│   ├── models.py        # Custom user model
-│   ├── views.py         # Views: register, login, logout, dashboard
-│   ├── forms.py         # Registration/Login forms
-│   ├── urls.py          # URLs specific to auth
-│   └── templates/
-│       └── accounts/
-│           ├── login.html
-│           ├── register.html
-│           └── dashboard.html
-│
-├── manage.py
-```
+1. [Overview](#overview)  
+2. [Features](#features)  
+3. [Tech Stack & Dependencies](#tech-stack--dependencies)  
+4. [Project Structure](#project-structure)  
+5. [Setup & Installation](#setup--installation)  
+6. [Usage](#usage)  
+7. [Security Considerations](#security-considerations)  
+8. [Contributing](#contributing)  
+9. [License](#license)
 
 ---
 
-## 🛠️ How to Run the Project
+## 💡 Overview
 
-### 1. 📦 Clone the Repository
+This Django-based project handles common user authentication flows out-of-the-box:
 
-```bash
-git clone https://github.com/yourusername/django-auth-system.git
-cd django-auth-system
+- ✅ User **registration** (with email confirmation option)  
+- 🔐 **Login** and **logout**  
+- 🔄 **Password reset** via email  
+- 🔒 Secure password hashing and session management :contentReference[oaicite:1]{index=1}
+
+It’s designed as a standalone app that you can incorporate into your own Django projects as a reusable authentication layer.
+
+---
+
+## ✅ Features
+
+- Register new users with **email** and **username**  
+- Login/logout with Django’s authentication backend  
+- Reset forgotten passwords with **tokenized email flow**  
+- Optional **email confirmation** upon registration  
+- Profile update form (email, username, password)  
+- Clean, minimalistic **Bootstrap-based UI**
+
+---
+
+## 🛠️ Tech Stack & Dependencies
+
+- **Python 3.8+**, **Django 4.x**  
+- Built-in `django.contrib.auth`, `django.contrib.sessions`, `django.contrib.messages`  
+- **Bootstrap 5** for styling and responsive templates  
+- Optional Email backend (SMTP/Gmail) for confirmation flows :contentReference[oaicite:2]{index=2}  
+- SQLite by default (configurable for PostgreSQL/MySQL)
+
+---
+
+## 🗂️ Project Structure
+
 ```
 
-### 2. 🐍 Create Virtual Environment
+django\_auth\_system/
+├── authentication/      # Main app handling auth logic and views
+│   ├── templates/
+│   │   └── authentication/  # Registration, login, password reset templates
+│   ├── forms.py         # Custom forms for registration, login, password change
+│   ├── urls.py          # URL routes for auth views
+│   └── views.py         # View logic for all auth flows
+├── project/             # Django project settings and main configurations
+│   ├── settings.py
+│   ├── urls.py
+└── manage.py
+
+````
+
+---
+
+## ⚙️ Setup & Installation
 
 ```bash
-python -m venv venv
-source venv/bin/activate   # On Windows: venv\Scripts\activate
+git clone https://github.com/MisaghMomeniB/Django-Auth-System.git
+cd Django-Auth-System
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+````
+
+Configure email settings in `project/settings.py`:
+
+```python
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = '<your-email>@gmail.com'
+EMAIL_HOST_PASSWORD = '<app-password>'
 ```
 
-### 3. 📥 Install Dependencies
+Run migrations and start the server:
 
 ```bash
-pip install django
-```
-
-### 4. 🔧 Apply Migrations
-
-```bash
-python manage.py makemigrations
 python manage.py migrate
-```
-
-### 5. 🚀 Run Development Server
-
-```bash
 python manage.py runserver
 ```
 
-Now open your browser and visit:  
-👉 `http://127.0.0.1:8000/`
+---
+
+## 🚀 Usage
+
+Access these routes:
+
+* `/register/` – Create a new account
+* `/login/` – Sign in to your account
+* `/logout/` – Sign out
+* `/password-reset/` – Request a password reset link
+* `/password-reset-confirm/...` – Set a new password
+* `/profile/` (optional) – Update user details
+
+Templates are customizable—update them in `authentication/templates/authentication/`.
 
 ---
 
-## 🌐 App URLs
+## 🔐 Security Considerations
 
-| URL                          | Purpose             |
-|-----------------------------|---------------------|
-| `/register/`                | Register new user   |
-| `/login/`                   | Login existing user |
-| `/logout/`                  | Logout user         |
-| `/dashboard/`               | Protected page      |
+* Secure password hashing with Django’s default **PBKDF2**
+* Time-limited tokens for password reset and email confirmation
+* CSRF protection and session security from Django middleware
+* Optional **email confirmation** to verify user addresses ([github.com][1])
 
 ---
 
-## ✍️ Implementation Details
+## 🤝 Contributing
 
-### 🔸 Custom User Model
+Improvements are welcome! You could add:
 
-Used to extend the default Django `User` and use email as the unique identifier:
+* Social login (OAuth) integration
+* Two-factor authentication (2FA)
+* Customizable email templates and styling
+* Unit tests for views and form validity
 
-```python
-# accounts/models.py
+**To contribute**:
 
-from django.contrib.auth.models import AbstractUser
-from django.db import models
-
-class CustomUser(AbstractUser):
-    email = models.EmailField(unique=True)
-
-    def __str__(self):
-        return self.email
-```
-
-And in `settings.py`:
-
-```python
-AUTH_USER_MODEL = 'accounts.CustomUser'
-```
-
----
-
-### 🔸 Forms
-
-```python
-# accounts/forms.py
-
-from django import forms
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from .models import CustomUser
-
-class CustomUserCreationForm(UserCreationForm):
-    class Meta:
-        model = CustomUser
-        fields = ('username', 'email', 'password1', 'password2')
-
-class CustomAuthenticationForm(AuthenticationForm):
-    username = forms.EmailField(label='Email')
-```
-
----
-
-### 🔸 Views
-
-```python
-# accounts/views.py
-
-from django.shortcuts import render, redirect
-from django.contrib.auth import login, logout
-from django.contrib.auth.decorators import login_required
-from .forms import CustomUserCreationForm, CustomAuthenticationForm
-
-def register_view(request):
-    if request.method == 'POST':
-        form = CustomUserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return redirect('dashboard')
-    else:
-        form = CustomUserCreationForm()
-    return render(request, 'accounts/register.html', {'form': form})
-
-def login_view(request):
-    if request.method == 'POST':
-        form = CustomAuthenticationForm(request, data=request.POST)
-        if form.is_valid():
-            user = form.get_user()
-            login(request, user)
-            return redirect('dashboard')
-    else:
-        form = CustomAuthenticationForm()
-    return render(request, 'accounts/login.html', {'form': form})
-
-def logout_view(request):
-    logout(request)
-    return redirect('login')
-
-@login_required
-def dashboard_view(request):
-    return render(request, 'accounts/dashboard.html')
-```
-
----
-
-### 🔸 URL Configuration
-
-```python
-# accounts/urls.py
-
-from django.urls import path
-from . import views
-
-urlpatterns = [
-    path('register/', views.register_view, name='register'),
-    path('login/', views.login_view, name='login'),
-    path('logout/', views.logout_view, name='logout'),
-    path('dashboard/', views.dashboard_view, name='dashboard'),
-]
-```
-
-```python
-# auth_system/urls.py
-
-from django.contrib import admin
-from django.urls import path, include
-
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('accounts.urls')),
-]
-```
-
----
-
-## 🧪 Templates
-
-### register.html
-
-```html
-<h2>Register</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Register</button>
-</form>
-<a href="{% url 'login' %}">Already have an account?</a>
-```
-
-### login.html
-
-```html
-<h2>Login</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Login</button>
-</form>
-<a href="{% url 'register' %}">Create an account</a>
-```
-
-### dashboard.html
-
-```html
-<h2>Welcome, {{ request.user.username }}</h2>
-<a href="{% url 'logout' %}">Logout</a>
-```
-
----
-
-## ⚙️ Django Settings
-
-```python
-# settings.py
-
-LOGIN_URL = 'login'
-LOGIN_REDIRECT_URL = 'dashboard'
-LOGOUT_REDIRECT_URL = 'login'
-```
-
----
-
-## 📌 Requirements
-
-- Python 3.x
-- Django 4.x+
-- Virtualenv (optional, recommended)
+1. Fork the repo
+2. Create a branch (`feature/...`)
+3. Implement changes with tests
+4. Open a Pull Request
 
 ---
 
 ## 📄 License
 
-This project is open-source and free to use under the [MIT License](LICENSE).
-
----
-
-## ✨ Author
-
-Created with ❤️ by **Misagh**  
-[LinkedIn](https://www.linkedin.com/in/misaghmomenib/) — [GitHub](https://github.com/MisaghMomeniB)
-
-```
+Distributed under the **MIT License**. See `LICENSE` file for details.
